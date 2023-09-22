@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 public class MasterMindBoard{
   private int[] boardList;
 
@@ -24,16 +25,27 @@ public class MasterMindBoard{
     return output;
   }
 
-  /*creates an arrayList and fills it with each new colour that isn't a 
-  duplicate. The outputs the length*/
-  public int getCorrectColours(int[] List){
-    ArrayList<Integer> cList = new ArrayList<Integer>(); //creates an empty arraylist that will have each correct colour in it when the code executes.
-    for(int i = 0; i < List.length; i++){
-      if(!(cList.contains(List[i]))){
-        cList.add(List[i]);
-      }
+//chatGPT created this method
+public int getCorrectColours(int[] userCode) {
+    int output = 0;
+
+    // Create copies of the arrays to track matched elements
+    int[] boardCopy = Arrays.copyOf(boardList, boardList.length);
+    int[] userCopy = Arrays.copyOf(userCode, userCode.length);
+
+    for (int i = 0; i < userCopy.length; i++) {
+        for (int j = 0; j < boardCopy.length; j++) {
+            if (userCopy[i] == boardCopy[j]) {
+                // Found a correct color, mark it as matched
+                userCopy[i] = -1;
+                boardCopy[j] = -1;
+                output++;
+                break; // Exit inner loop after finding a match
+            }
+        }
     }
-    return cList.size();
-  }
+
+    return output;
+}
 
 }
