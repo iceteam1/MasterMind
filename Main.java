@@ -18,24 +18,27 @@ class Main {
   }
 
   public static void main(String[] args) {
+    
+    Scanner input = new Scanner(System.in);
+    System.out.print("Enter the size of your list (3-8): ");
+    int listSize = inputRange(3, 8, input); 
 
-    //Fixed list and variables (Remove later)
-    int[] TestBoard = {1,2,3,4,5};
-    int listSize = 5; //size of list
-    int listRange = 5;// Max value of colour range starting at 0
-    int[] RandomBoard = new int[listSize];
-    int numElement = 5;
-    for (int i = 0; i < numElement; i++); {
+    System.out.print("Enter the number range for your pegs (2 - 9)");
+    int listRange = inputRange(2, 9, input);
+    
+    int[] randomBoard = new int[listSize];
+    
+    for (int i = 0; i < listSize; i++) {
       int randomIndex = (int)(Math.random() * listRange);
-      int randomElement = TestBoard[randomIndex];
-      System.out.println(randomIndex);
+      randomBoard[i] = randomIndex;
     }
     
+    //System.out.println(Arrays.toString(randomBoard));
     
-    
-    MasterMindBoard m = new MasterMindBoard(TestBoard);
+  
+    MasterMindBoard m = new MasterMindBoard(randomBoard);
 
-    Scanner input = new Scanner(System.in);
+    int guesses = 1;
     boolean inGame = true;
     int[] userCode = new int[listSize];
     while(inGame){
@@ -48,12 +51,19 @@ class Main {
       //checks if the code the user entered is correct. 
       if(Arrays.equals(userCode, m.getBoard())){
         inGame = false;
+        break;
+        
       }else{
         //outputs how much pegs are in the correct spot and colour
         System.out.println("Pegs Correct: " + m.getCorrectPegs(userCode));
         System.out.println("Correct Colours: " + m.getCorrectColours(userCode));
+        
+        guesses++;
       }
         
     }
+  System.out.println("You broke the code in " + guesses + " guesses.");
+  input.close();
+  
   }//end main
 }//end class
